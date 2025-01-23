@@ -14,10 +14,6 @@ export default function Home() {
   >([]);
   const [calledNumbers, setCalledNumbers] = useState<number[]>([]);
 
-  useEffect(() => {
-    setBingoCard(generateBingoCard()); // クライアント側で初期化
-  }, []);
-
   const callNumber = () => {
     const availableNumbers = Array.from({ length: 75 }, (_, i) => i + 1).filter(
       (n) => !calledNumbers.includes(n)
@@ -31,19 +27,31 @@ export default function Home() {
 
   const bingo = isBingo(bingoCard);
 
+  useEffect(() => {
+    setBingoCard(generateBingoCard());
+  }, []);
+
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-6">ビンゴゲーム</h1>
+    <main className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+      <h1 className="text-4xl font-bold mb-6 text-gray-800">Bingo Game</h1>
       <BingoCard card={bingoCard} onNumberCheck={() => {}} />
       <button
-        onClick={callNumber}
-        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded"
+        onClick={() => setBingoCard(generateBingoCard())}
+        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
       >
-        番号をコール
+        GET A NEW CARD
+      </button>
+      <button
+        onClick={callNumber}
+        className="mt-6 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+      >
+        Call Number
       </button>
       <div className="mt-4">
-        <h2>コールされた番号: {calledNumbers.join(", ")}</h2>
-        {bingo && <p className="text-green-600 text-xl mt-2">ビンゴ成立！</p>}
+        <h2 className="text-xl text-gray-700">
+          Called Numbers: {calledNumbers.join(", ")}
+        </h2>
+        {bingo && <p className="text-green-600 text-2xl mt-2">BINGO!</p>}
       </div>
     </main>
   );
