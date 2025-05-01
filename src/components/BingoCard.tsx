@@ -158,7 +158,11 @@ const BingoCard: React.FC<BingoCardProps> = ({
 
 	const getCellStyle = (cell: BingoCell) => {
 		if (cell.number === 0) return "bg-yellow-200 text-lg font-bold"; // FREEセル
-		if (cell.checked) return "bg-green-500 text-white"; // チェック済み
+		if (cell.checked)
+			return "bg-green-500 text-white transition-all duration-300 transform scale-105"; // チェック済み
+		if (isReach && reachNumbers.includes(cell.number)) {
+			return "bg-white hover:bg-blue-100 focus:bg-blue-200 animate-pulse border-2 border-red-500 text-red-500 font-bold"; // リーチの残り1マス
+		}
 		return "bg-white hover:bg-blue-100 focus:bg-blue-200"; // 通常
 	};
 
